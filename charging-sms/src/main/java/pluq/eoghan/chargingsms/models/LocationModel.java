@@ -1,13 +1,21 @@
 package pluq.eoghan.chargingsms.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.Instant;
 import java.util.List;
 
 @Entity
-@Table(name = "locations")
-@Getter @Setter @NoArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class LocationModel {
+
     @Id
     private String id;
     private String type;
@@ -16,12 +24,10 @@ public class LocationModel {
     private String postalCode;
     private String country;
     private String name;
-    private String latitude;
-    private String longitude;
+    @Embedded
+    private CoordinatesModel coordinates;
     private Boolean chargingWhenClosed;
-    private String lastUpdated;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id")
+    private Instant lastUpdated;
+    @OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
     private List<EvseModel> evses;
 }

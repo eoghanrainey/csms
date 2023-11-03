@@ -1,0 +1,11 @@
+version: '3'
+services:
+  postgres-order-serv:
+    container_name: postgres-order-serv
+    image: postgres:latest
+    ports:
+      - "5469:5432"
+    environment:
+      - POSTGRES_DB=csms
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
